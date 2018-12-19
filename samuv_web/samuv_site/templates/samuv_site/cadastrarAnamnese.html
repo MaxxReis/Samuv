@@ -1,0 +1,259 @@
+{% extends 'samuv_site/base.html' %}
+
+{% load static %}
+
+{% load css_tags %}
+
+{% block base_css%}
+  {{ block.super }}
+
+  <style>
+    .datepicker { font-size: 12px; }
+  </style>
+
+{% endblock %}
+
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="row">
+        <div class="col-lg-12">
+             {% if messages %}
+             {% for message in messages %}
+             <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}success{% endif %} alert-dismissable">
+                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                 {{ message }}
+             </div>
+             {% endfor %}
+             {% endif %}
+         </div>
+       </div>
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h5 class="m-0 text-dark">Cadastro de Anamnese</h5>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <!-- <li class="breadcrumb-item"><a href="#">Home</a></li> -->
+              <!--li class="breadcrumb-item active">Dashboard v3</li-->
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-10">
+            <div class="card">
+              <div class="card-body">
+              <!-- Main row -->
+              
+                <form method="post">
+                {% csrf_token %}
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.paciente.label_tag }}
+                      {{ form.paciente }}
+                      <small class="form-text text-danger">{{ form.paciente.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.peso.label_tag }}
+                      {{ form.peso }}
+                      <small class="form-text text-danger">{{ form.peso.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.altura.label_tag }}
+                      {{ form.altura }}
+                    <small class="form-text text-danger">{{ form.altura.errors.as_text }}</small>
+                  </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.antecedentesPessoais.label_tag }}
+                      {{ form.antecedentesPessoais }}
+                    <small class="form-text text-danger">{{ form.antecedentesPessoais.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.medicamentosEmUso.label_tag }}
+                      {{ form.medicamentosEmUso }}
+                    <small class="form-text text-danger">{{ form.medicamentosEmUso.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.historiaUlcera.label_tag }}
+                      {{ form.historiaUlcera }}
+                    <small class="form-text text-danger">{{ form.historiaUlcera.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.inicioPrimeiraUlcera.label_tag }}
+                      {{ form.inicioPrimeiraUlcera }}
+                    <small class="form-text text-danger">{{ form.inicioPrimeiraUlcera.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.fechamentoUlcera.label_tag }}
+                      {{ form.fechamentoUlcera }}
+                    <small class="form-text text-danger">{{ form.fechamentoUlcera.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.ulceraAtual.label_tag }}
+                      {{ form.ulceraAtual }}
+                    <small class="form-text text-danger">{{ form.ulceraAtual.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.presencaDor.label_tag }}
+                      {{ form.presencaDor }}
+                    <small class="form-text text-danger">{{ form.presencaDor.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.alivioDor.label_tag }}
+                      {{ form.alivioDor }}
+                    <small class="form-text text-danger">{{ form.alivioDor.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.tempoTratamento.label_tag }}
+                      {{ form.tempoTratamento }}
+                    <small class="form-text text-danger">{{ form.tempoTratamento.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.localTratamento.label_tag }}
+                      {{ form.localTratamento }}
+                    <small class="form-text text-danger">{{ form.localTratamento.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.frequenciaTrocaCurativos.label_tag }}
+                      {{ form.frequenciaTrocaCurativos }}
+                    <small class="form-text text-danger">{{ form.frequenciaTrocaCurativos.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.trocaCurativoFinalDeSemana.label_tag }}
+                      {{ form.trocaCurativoFinalDeSemana }}
+                    <small class="form-text text-danger">{{ form.trocaCurativoFinalDeSemana.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.interrupcaoTratamento.label_tag }}
+                      {{ form.interrupcaoTratamento }}
+                    <small class="form-text text-danger">{{ form.interrupcaoTratamento.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.motivoInterrupcao.label_tag }}
+                      {{ form.motivoInterrupcao }}
+                    <small class="form-text text-danger">{{ form.motivoInterrupcao.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.terapiaCompressiva.label_tag }}
+                      {{ form.terapiaCompressiva }}
+                    <small class="form-text text-danger">{{ form.terapiaCompressiva.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.cirurgiaVarize.label_tag }}
+                      {{ form.cirurgiaVarize }}
+                    <small class="form-text text-danger">{{ form.cirurgiaVarize.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.profissionalAcompanhante.label_tag }}
+                      {{ form.profissionalAcompanhante }}
+                    <small class="form-text text-danger">{{ form.profissionalAcompanhante.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.acessoCef.label_tag }}
+                      {{ form.acessoCef }}
+                    <small class="form-text text-danger">{{ form.acessoCef.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.internacao.label_tag }}
+                      {{ form.internacao }}
+                    <small class="form-text text-danger">{{ form.internacao.errors.as_text }}</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-10">
+                      {{ form.culturaSecrecao.label_tag }}
+                      {{ form.culturaSecrecao }}
+                    <small class="form-text text-danger">{{ form.culturaSecrecao.errors.as_text }}</small>
+                    </div>
+                  </div>
+
+                  <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                  </div>
+            </form>
+        </div>
+        </div>
+        
+       </div>
+       
+
+
+        <!-- form -->
+        <!-- Retirar data da cadastro -->
+        <!-- Adicionar Radio button no campo sexo -->
+        <!-- Adicionar button de calendário ao lado dos campos de data -->
+
+        <!-- /.form -->
+        <!-- /.card -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+
+  {{ block.super }}
+
+  <script type="text/javascript">
+    $('#id_dataNascimento').datepicker({
+      format: 'dd/mm/yyyy',
+      language: 'pt-BR'
+    });
+  </script>
+
+  {{ form.media }}
+
+{% endblock %}

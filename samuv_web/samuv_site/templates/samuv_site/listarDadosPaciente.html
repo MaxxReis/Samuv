@@ -1,0 +1,466 @@
+{% extends 'samuv_site/base.html' %}
+{% block content %}
+{% load static %}
+
+{% block title %} Samuv {% endblock %}
+<script>
+function saveId(id){
+    $('#idPaciente').val(id);
+}
+
+function excluir(){
+    var id = $('#idPaciente').val();
+    var url = "../excluirPaciente/"+id;
+    window.location = url;
+}
+</script>
+<!-- Modal -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel">Excluir Paciente</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        Deseja realmente excluir este paciente?
+      </div>
+      <div class="modal-footer" id="modalExcluir">
+        <button type="button" id="btexcluir"  onclick="excluir()" class="btn btn-primary">Sim</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
+      </div>
+    </div>
+  </div>
+</div> <!-- /.modal -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="row">
+        <div class="col-lg-12">
+             {% if messages %}
+             {% for message in messages %}
+             <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}success{% endif %} alert-dismissable">
+                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                 {{ message }}
+             </div>
+             {% endfor %}
+             {% endif %}
+         </div>
+       </div>
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h5 class="m-0 text-dark">Informação do Paciente</h5>
+              <!-- <a href="{% url 'samuv_site:pacientes' %}" class="text-muted" >
+                <p>Lista de Pacientes</p>
+              </a> -->
+              <input type="text" id="idPaciente" hidden/>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <!-- link abaixo não utilizado
+              <li class="breadcrumb-item"><a href="#">Home</a></li> -->
+
+              <!--li class="breadcrumb-item active">Dashboard v3</li-->
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <!--<img class="profile-user-img img-fluid img-circle"
+                       src="../../dist/img/user4-128x128.jpg"
+                       alt="User profile picture"> -->
+                       <p>Imagem</p>
+                </div>
+                {% for paciente in paciente_informacao %}
+                    <h3 class="profile-username text-center">{{ paciente.nomeCompleto }}</h3>
+
+                    <!-- <p class="text-muted text-center">Software Engineer</p> -->
+
+                    <ul class="list-group list-group-unbordered mb-3">
+                      <li class="list-group-item">
+                        <b>CPF</b> <a class="float-right">{{ paciente.cpf }}</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Sexo</b> <a class="float-right">{{ paciente.sexo }}</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Idade</b> <a class="float-right">{{ paciente.idade }}</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Nascimento</b> <a class="float-right">{{ paciente.dataNascimento }}</a>
+                      </li>
+                      <!--<li class="list-group-item">
+                        <b>Estado civil</b> <a class="float-right">{{ paciente.estadoCivil }}</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Filhos</b> <a class="float-right">{{ paciente.numeroFilhos }}</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Religião</b> <a class="float-right">{{ paciente.religiao }}</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Escolaridade</b> <a class="float-right">{{ paciente.escolaridade }}</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Profissão</b> <a class="float-right">{{ paciente.profissao }}</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Renda Familiar</b> <a class="float-right">{{ paciente.rendaFamiliar }}</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>CNH</b> <a class="float-right">{{ paciente.habilitacao }}</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Saneamento</b> <a class="float-right">{{ paciente.condicaoSaneamento }}</a>
+                      </li> -->
+                    </ul>
+                {% endfor %}
+                <!-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        
+          <!-- /.col -->
+          <div class="col-md-9">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link active" href="#agenda" data-toggle="tab">Agenda</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#atendimentos" data-toggle="tab">Atendimentos</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#doencas" data-toggle="tab">Doenças</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#anamnese" data-toggle="tab">Anamnese</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#habitos" data-toggle="tab">Hábitos Pessoais</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#dadosClinicos" data-toggle="tab">Dados Clínicos</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#observacao" data-toggle="tab">Observação</a></li>
+                  <!-- <li class="nav-item"><a class="nav-link" href="#observacao" data-toggle="tab">Observação</a></li> -->
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <!-- Aba Agenda Inicio -->
+                  <div class="active tab-pane" id="agenda">
+                    <!-- Post -->
+                    <div class="post">
+                      <div class="user-block">
+                        {% for atendimento in atendimento_informacao %}
+                          <ul class="list-group list-group-unbordered mb-3">
+                            <li class="list-group-item">
+                              <b>Data</b><a class="float-right">{{atendimento.agenda.dataAgenda }}</a>
+                            </li>
+                          </ul>
+                        {% endfor %}
+                      </div>
+                    <!-- /.post -->
+                    </div>
+                  </div>
+                  <!-- Aba Agenda Fim -->
+
+                  <!-- Aba Atendimentos Inicio -->
+                  <div class="tab-pane" id="atendimentos">
+                    <!-- Post -->
+                    <div class="post">
+                      <div class="user-block">
+                         <!-- Post -->
+                          <div class="post">
+                            <div class="user-block">
+                              {% for atendimento in atendimento_informacao %}
+                                <ul class="list-group list-group-unbordered mb-3">
+                                  <li class="list-group-item">
+                                    <b>Nota</b><a class="float-right">{{ atendimento.nota }}</a>
+                                    <a href="{% url 'samuv_site:url_atendimentosPaciente' atendimento.doencaPaciente.paciente.id %}" class="text-muted">
+                                    <i class="fa fa-edit"></i>
+                                  </li>
+                                </ul>
+                              {% endfor %}
+                            </div>
+                          <!-- /.post -->
+                          </div>
+                        <!--<div class="card-body p-0">
+                        <p>Atendimentos</p>
+                        <table class="table table-striped table-valign-middle">
+                          <thead>
+                          <tr>
+                            <th style="display:none;">ID</th>
+                            <th>Paciente</th>
+                            <th>Profissional</th>
+                            <th>Data do atendimento</th>
+                            <th>Tecnica</th>
+                            <th>Ferida</th>
+                            <th>Area</th>
+                            <th>Status</th>
+                            <th>Ação</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                            {% for paciente in paciente_informacao %}
+                            <td style="display:none;">
+                                 {{ paciente.pk }}
+                            </td>
+                            <td>
+                                 {{ paciente.nomeCompleto }}
+                            </td>
+                            <td>
+                                 {{ paciente.cpf }}
+                            </td>
+                            <td>
+                                 {{ paciente.dataHora|date:'d/m/Y H:i' }}
+                            </td> 
+                            <td>
+                                 {{ paciente.dataNascimento }}
+                            </td>
+                            <td>
+                                 {{ paciente.estadoCivil }}
+                            </td>
+                            <td>
+                                 {{ paciente.numeroFilhos }}
+                            </td>
+                                {% if paciente.imagemAnalisada %}
+                                  <td style="background-color: #b3ffcc">Análise concluída</td>
+                                {% else %}
+                                  <td style="background-color: #ffcccc">Análise pendente</td>
+                                {% endif %}
+                            <td>
+                                <a href="#" class="text-muted"> 
+                                  <i class="fas fa-search" title="Analisar imagem"></i>
+                                </a>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                          </tbody>
+                        </table> 
+                      </div> -->
+                      </div>
+                    <!-- /.post -->
+                    </div>
+                  </div>
+                  <!-- Aba Atendimentos Fim -->
+
+                  <!-- Aba Doenças Inicio -->
+                  <div class="tab-pane" id="doencas">
+                    <!-- Post -->
+                    <div class="post">
+                      <div class="user-block">
+                        {% for doenca_paciente in doenca_informacao %}
+                          <ul class="list-group list-group-unbordered mb-3">
+                            <li class="list-group-item">
+                              <b>Doença</b><a class="float-right">{{ doenca_paciente.doenca.nome }}</a>
+                            </li>
+                          </ul>
+                        {% endfor %}
+                      </div>
+                    <!-- /.post -->
+                    </div>
+                  </div>
+                  <!-- Aba Doenças Fim -->
+
+                  <!-- Aba Anamnese Inicio -->
+                  <div class="tab-pane" id="anamnese">
+                    <!-- Post -->
+                    <div class="post">
+                      <div class="user-block">
+                       {% for paciente in paciente_informacao %}
+                        <ul class="list-group list-group-unbordered mb-3">
+                          <li class="list-group-item">
+                            <b>Peso</b> <a class="float-right">{{ paciente.anamnese.peso }}</a>
+                          </li>
+                          <li class="list-group-item">
+                            <b>Profissional</b> <a class="float-right">{{ paciente.anamnese.profissionalAcompanhante }}</a>
+                            </a>
+                          </li>
+                        </ul>
+                        {% endfor %} 
+                      </div>
+                    <!-- /.post -->
+                  </div>
+                </div>
+                <!-- Aba Anamnese Fim -->
+
+                <!-- Aba 2 -->
+                  <!-- Aba Habitos Pessoais Inicio -->
+                  <div class="tab-pane" id="habitos">
+                    <!-- Post -->
+                    <div class="post">
+                      <div class="user-block">
+                        {% for paciente in paciente_informacao %}
+                        <ul class="list-group list-group-unbordered mb-3">
+                          <li class="list-group-item">
+                            <b>Refeições por dia</b> <a class="float-right">{{ paciente.habitosPessoais.numeroRefeicoesDia }}</a>
+                          </li>
+                        </ul>
+                        {% endfor %}
+                      </div>
+                    <!-- /.post -->
+                  </div>
+                </div>
+                <!-- Aba Habitos Pessoais Fim -->
+
+                <!-- Aba Dados clínicos Inicio -->
+                <div class="tab-pane" id="dadosClinicos">
+                  <!-- Post -->
+                  <div class="post">
+                    <div class="user-block">
+                      {% for paciente in paciente_informacao %}
+                      <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item">
+                          <b>Diagnostico</b> <a class="float-right">{{ paciente.clinico.diagnosticoUsuario }}</a>
+                        </li>
+                      </ul>
+                      {% endfor %}
+                    </div>
+                  <!-- /.post -->
+                  </div>
+                </div>
+                <!-- Aba Dados clínicos Fim -->
+
+                <!-- Aba Observação Inicio -->
+                <div class="tab-pane" id="observacao">
+                  <!-- Post -->
+                  <div class="post">
+                    <div class="user-block">
+                      {% for paciente in paciente_informacao %}
+                      <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item">
+                          <b>Localização da úlcera</b> <a class="float-right">{{ paciente.observacao.localizacaoUlcera }}</a>
+                        </li>
+                      </ul>
+                      {% endfor %}
+                    </div>
+                  <!-- /.post -->
+                  </div>
+                </div>
+                <!-- Aba Observação Fim -->
+
+                  
+                  <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+          </div>
+          <!-- /.col -->
+
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+
+
+    <!-- //////////////////////////////////////////////// -->
+    <!-- Retirar: começo -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- <div class="col-auto">-->
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body p-0">
+                <div class="card card-primary card-outline">
+                  
+                </div>
+                <table class="table table-striped table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th>Atualizar</th>
+                      <th>Analisar Úlceras</th>
+                      <!--<th>Anamnese</th>
+                      <th>Observacão</th>
+                      <th>Habitos Pessoais</th>
+                      <th>Dados Clinicos</th>
+                      <th>Ferida</th>
+                      <th>Atendimento</th> -->
+                      {% if user.is_staff %}
+                      <th>Excluir</th>
+                      {% endif %}
+                    </tr>
+                  </thead>
+                    <tbody>
+                      <tr>
+                        {% for paciente in paciente_informacao %}
+                        <td>
+                          <a href="{% url 'samuv_site:url_atualizarPaciente' paciente.id %}" class="text-muted">
+                            <i class="fa fa-edit"></i>
+                          </a>
+                        </td>
+                        <td>
+                          <a href="{% url 'samuv_site:url_feridasPaciente' paciente.id %}" class="text-muted">
+                          <i class="fas fa-search-plus"></i>
+                        </td>
+                        <!--<td>
+                          <a href="{% url 'samuv_site:url_cadastrarAnamnese' paciente.id %}" class="text-muted">
+                          <i class="fas fa-plus"></i>
+                        </td>
+                        <td>
+                          <a href="{% url 'samuv_site:url_cadastrarObservacao' paciente.id %}" class="text-muted">
+                          <i class="fas fa-plus"></i>
+                        </td>
+                        <td>
+                          <a href="{% url 'samuv_site:url_cadastrarHabitosPessoais' paciente.id %}" class="text-muted">
+                          <i class="fas fa-plus"></i>
+                        </td>
+                        <td>
+                          <a href="{% url 'samuv_site:url_cadastrarDadosClinicos' paciente.id %}" class="text-muted">
+                          <i class="fas fa-plus"></i>
+                        </td>
+                        <td>
+                          <a href="{% url 'samuv_site:url_cadastrarFerida' paciente.id %}" class="text-muted">
+                          <i class="fas fa-plus"></i>
+                        </td>
+                        <td>
+                          <a href="{% url 'samuv_site:url_cadastrarAtendimento' paciente.id %}" class="text-muted">
+                          <i class="fas fa-plus"></i>
+                        </td> -->
+                        {% if user.is_staff %}
+                          <td>
+                          <a data-toggle="modal" onclick="saveId({{paciente.id}})" href="#delete-modal">
+                            <i class="fa fa-trash"></i>
+                          </a>
+                        </td>
+                        {% endif %}
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+
+              </div>
+              
+            </div>
+            <!-- /.card -->
+
+          </div>
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+    <!-- Retirar: fim -->
+
+
+  </div>
+  <!-- /.content-wrapper -->
+
+{% endblock %}
+
+

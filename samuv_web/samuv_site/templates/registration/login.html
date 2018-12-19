@@ -1,0 +1,57 @@
+{% extends 'registration/base_registration.html' %}
+{% load static %}
+{% load css_tags %}
+{% block title %} Samuv | Log in {% endblock %}
+
+  {% block content %}
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Preencha os dados para logar</p>
+
+      <form method="post">
+        {% csrf_token %}
+         <span class="help-block m-b-none">{{ form.non_field_errors.as_text }}</span>
+        {% for field in form %}
+          <div class="input-group mb-3">
+            {{ field }}
+            {% if field.name == "username" %}
+            <div class="input-group-append">
+              <span class="fa fa-user input-group-text"></span>
+            </div>
+            {% else %}
+            <div class="input-group-append">
+              <span class="fa fa-lock input-group-text"></span>
+            </div>
+            {% endif %}
+            {{ field.errors.as_text }}
+          </div>
+        {% endfor%}
+        <div class="row">
+          <div class="col-8">
+        </div>
+        <div class="col-4">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Logar</button>
+        </div>
+        </div>
+      </form>
+
+      <!--<small>
+        <a href="">Esqueci minha senha</a>
+      </small>-->
+
+      <p class="mb-1">
+        <a href="#">Esqueci minha senha</a>
+      </p>
+    </div>
+      
+  </div>
+    <footer class="card-body">
+    <center>
+      <h6>Copyright &copy; 2018 <a href="#">Samuv</a></h6>
+         <h6>Todos os direitos reservados</h6>
+        </center>
+    </footer>
+
+  {% endblock %}
+

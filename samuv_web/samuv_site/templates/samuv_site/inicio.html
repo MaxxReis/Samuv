@@ -1,0 +1,75 @@
+{% extends 'samuv_site/base.html' %}
+
+{% load static %}
+
+{% load css_tags %}
+
+{% block base_css%}
+  {{ block.super }}
+
+{% endblock %}
+
+{% block content %}
+
+  <div class="content-wrapper">
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+          <div class="col-lg-4 col-6" >
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner col-lg-6">
+                <!-- <h3>150</h3> -->
+                <!-- <h3>{{ qtd }}</h3> -->
+                <h1>Lista de Pacientes</h1>
+              </div>
+              <div class="icon">
+                <i class="ion ion-folder"></i>
+              </div>
+              <a href="{% url 'samuv_site:pacientes' %}" class="small-box-footer"> <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-4 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner col-lg-6">
+                <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
+
+                <h1>Cadastrar Pacientes</h1>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+              <a href="{% url 'samuv_site:url_cadastrarPaciente' %}" class="small-box-footer"> <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+
+          <!-- ./col -->
+          <div class="col-lg-4 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner col-lg-6">
+                <!-- <h3>65</h3> -->
+
+                <h1>Relatório Samuv</h1>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+              <a href="{% url 'samuv_site:relatorio' %}" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+        <!-- /.row -->
+      </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+
+{% endblock %}

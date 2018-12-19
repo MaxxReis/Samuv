@@ -1,0 +1,488 @@
+{% extends 'samuv_site/base.html' %}
+
+{% load static %}
+
+{% load css_tags %}
+
+{% block base_css%}
+  {{ block.super }}
+
+  <style>
+    .datepicker { font-size: 12px; }
+  </style>
+
+{% endblock %}
+
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="row">
+        <div class="col-lg-12">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}success{% endif %} alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            {{ message }}
+          </div>
+          {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h5 class="m-0 text-dark">Cadastro de Paciente</h5>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <!-- <li class="breadcrumb-item"><a href="#">Home</a></li> -->
+              <!--li class="breadcrumb-item active">Dashboard v3</li-->
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+            
+
+        </div>
+            <!-- /.card -->
+        </div>
+        
+       </div>
+       
+       <!-- Inicio -->
+      <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+
+          <!-- /.col -->
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link active" href="#dadosPessoais" data-toggle="tab">Dados Pessoais</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#anamnese" data-toggle="tab">Anamnese</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#habitosPessoais" data-toggle="tab">Hábitos Pessoais</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#dadosClinicos" data-toggle="tab">Dados Clínicos</a>
+                  </li>
+                  <li class="nav-item"><a class="nav-link" href="#observacao" data-toggle="tab">Observação</a>
+                  </li>
+                  <!-- <li class="nav-item"><a class="nav-link" href="#observacao" data-toggle="tab">Observação</a></li> -->
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <!-- Aba Dados Pessoais -->
+                  <div class="active tab-pane" id="dadosPessoais">
+                    <!-- Post -->
+                    <div class="post">
+                      <div class="user-block">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ forms.pacienteForm }}
+                            <!-- <input type="submit" value="Subscribe"> -->
+                            <div class="col-auto">
+                              <button type="submit" class="btn btn-primary">Salvar</button>
+                            </div>
+                        </form>
+                        <!--
+                          <form method="post">
+                          {% csrf_token %}
+                          <div class="form-group">
+                            <div class="col-sm-12">
+                              {{ form.nomeCompleto.label_tag }}
+                              {{ form.nomeCompleto }}
+                              <small class="form-text text-danger">{{ form.nomeCompleto.errors.as_text }}</small>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-sm-12">
+                              {{ form.cpf.label_tag }}
+                              {{ form.cpf }}
+                              <small class="form-text text-danger">{{ form.cpf.errors.as_text }}</small>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-sm-12">
+                              {{ form.sexo.label_tag }}
+                              {% for choice in form.sexo %}
+                                  <div class="form-check">
+                                    {{ choice }}
+                                  </div>
+                              {% endfor %}
+                              <small class="form-text text-danger">{{ form.sexo.errors.as_text }}</small>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-sm-12">
+                              {{ form.dataNascimento.label_tag }}
+                              {{ form.dataNascimento }}
+                            <small class="form-text text-danger">{{ form.dataNascimento.errors.as_text }}</small>
+                          </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-sm-12">
+                              {{ form.idade.label_tag }}
+                              {{ form.idade }}
+                            <small class="form-text text-danger">{{ form.idade.errors.as_text }}</small>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-sm-12">
+                              {{ form.estadoCivil.label_tag }}
+                              {{ form.estadoCivil }}
+                            <small class="form-text text-danger">{{ form.estadoCivil.errors.as_text }}</small>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-sm-12">
+                              {{ form.numeroFilhos.label_tag }}
+                              {{ form.numeroFilhos }}
+                            <small class="form-text text-danger">{{ form.numeroFilhos.errors.as_text }}</small>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-sm-12">
+                              {{ form.religiao.label_tag }}
+                              {{ form.religiao }}
+                            <small class="form-text text-danger">{{ form.religiao.errors.as_text }}</small>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-sm-12">
+                              {{ form.escolaridade.label_tag }}
+                              {{ form.escolaridade }}
+                            <small class="form-text text-danger">{{ form.escolaridade.errors.as_text }}</small>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-sm-12">
+                              {{ form.profissao.label_tag }}
+                              {{ form.profissao }}
+                            <small class="form-text text-danger">{{ form.profissao.errors.as_text }}</small>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-sm-12">
+                              {{ form.rendaFamiliar.label_tag }}
+                              {{ form.rendaFamiliar }}
+                            <small class="form-text text-danger">{{ form.rendaFamiliar.errors.as_text }}</small>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-sm-12">
+                              {{ form.habilitacao.label_tag }}
+                              {{ form.habilitacao }}
+                            <small class="form-text text-danger">{{ form.habilitacao.errors.as_text }}</small>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-sm-12">
+                              {{ form.condicaoSaneamento.label_tag }}
+                              {{ form.condicaoSaneamento }}
+                            <small class="form-text text-danger">{{ form.condicaoSaneamento.errors.as_text }}</small>
+                            </div>
+                          </div>
+
+
+                        <div class="col-auto">
+                          <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                       </form> -->
+                      </div>
+                    <!-- /.post -->
+                    </div>
+                  </div>
+                  <!-- Aba Dados Pessoais Fim -->
+
+                  <!-- Aba Anamnese Inicio -->
+                  <div class="tab-pane" id="anamnese">
+                    <!-- Post -->
+                    <div class="post">
+                      <div class="user-block">
+                        <form method="post">
+                          {% csrf_token %}
+                          {{ forms.anamneseForm }}
+                          <!-- <input type="submit" value="Subscribe"> -->
+                          <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                          </div>
+                        </form>
+                        <!--
+                        <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.peso.label_tag }}
+                            {{ form.peso }}
+                            <small class="form-text text-danger">{{ form.peso.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.altura.label_tag }}
+                            {{ form.altura }}
+                          <small class="form-text text-danger">{{ form.altura.errors.as_text }}</small>
+                        </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.antecedentesPessoais.label_tag }}
+                            {{ form.antecedentesPessoais }}
+                          <small class="form-text text-danger">{{ form.antecedentesPessoais.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.medicamentosEmUso.label_tag }}
+                            {{ form.medicamentosEmUso }}
+                          <small class="form-text text-danger">{{ form.medicamentosEmUso.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.historiaUlcera.label_tag }}
+                            {{ form.historiaUlcera }}
+                          <small class="form-text text-danger">{{ form.historiaUlcera.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.inicioPrimeiraUlcera.label_tag }}
+                            {{ form.inicioPrimeiraUlcera }}
+                          <small class="form-text text-danger">{{ form.inicioPrimeiraUlcera.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.fechamentoUlcera.label_tag }}
+                            {{ form.fechamentoUlcera }}
+                          <small class="form-text text-danger">{{ form.fechamentoUlcera.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.ulceraAtual.label_tag }}
+                            {{ form.ulceraAtual }}
+                          <small class="form-text text-danger">{{ form.ulceraAtual.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.presencaDor.label_tag }}
+                            {{ form.presencaDor }}
+                          <small class="form-text text-danger">{{ form.presencaDor.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.alivioDor.label_tag }}
+                            {{ form.alivioDor }}
+                          <small class="form-text text-danger">{{ form.alivioDor.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.tempoTratamento.label_tag }}
+                            {{ form.tempoTratamento }}
+                          <small class="form-text text-danger">{{ form.tempoTratamento.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.localTratamento.label_tag }}
+                            {{ form.localTratamento }}
+                          <small class="form-text text-danger">{{ form.localTratamento.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.frequenciaTrocaCurativos.label_tag }}
+                            {{ form.frequenciaTrocaCurativos }}
+                          <small class="form-text text-danger">{{ form.frequenciaTrocaCurativos.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.trocaCurativoFinalDeSemana.label_tag }}
+                            {{ form.trocaCurativoFinalDeSemana }}
+                          <small class="form-text text-danger">{{ form.trocaCurativoFinalDeSemana.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.interrupcaoTratamento.label_tag }}
+                            {{ form.interrupcaoTratamento }}
+                          <small class="form-text text-danger">{{ form.interrupcaoTratamento.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.motivoInterrupcao.label_tag }}
+                            {{ form.motivoInterrupcao }}
+                          <small class="form-text text-danger">{{ form.motivoInterrupcao.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.terapiaCompressiva.label_tag }}
+                            {{ form.terapiaCompressiva }}
+                          <small class="form-text text-danger">{{ form.terapiaCompressiva.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.cirurgiaVarize.label_tag }}
+                            {{ form.cirurgiaVarize }}
+                          <small class="form-text text-danger">{{ form.cirurgiaVarize.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.profissionalAcompanhante.label_tag }}
+                            {{ form.profissionalAcompanhante }}
+                          <small class="form-text text-danger">{{ form.profissionalAcompanhante.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.acessoCef.label_tag }}
+                            {{ form.acessoCef }}
+                          <small class="form-text text-danger">{{ form.acessoCef.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.internacao.label_tag }}
+                            {{ form.internacao }}
+                          <small class="form-text text-danger">{{ form.internacao.errors.as_text }}</small>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            {{ form.culturaSecrecao.label_tag }}
+                            {{ form.culturaSecrecao }}
+                          <small class="form-text text-danger">{{ form.culturaSecrecao.errors.as_text }}</small>
+                          </div>
+                        </div>
+
+                        <div class="col-auto">
+                          <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                      </form> -->
+                      </div>
+                    <!-- /.post -->
+                    </div>
+                  </div>
+                  <!-- Aba Anamnese Fim -->
+
+                  <!-- Aba Hábitos Pessoais Inicio -->
+                  <div class="tab-pane" id="habitosPessoais">
+                    <!-- Post -->
+                    <div class="post">
+                      <div class="user-block">
+                        <form method="post">
+                          {% csrf_token %}
+                          {{ forms.habitosPessoaisForm }}
+                          <!-- <input type="submit" value="Subscribe"> -->
+                          <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                          </div>
+                        </form>
+                      </div>
+                    <!-- /.post -->
+                    </div>
+                  </div>
+                  <!-- Aba Hábitos Pessoais Fim -->
+
+                  <!-- Aba Dados Clínicos Inicio -->
+                  <div class="tab-pane" id="dadosClinicos">
+                    <!-- Post -->
+                    <div class="post">
+                      <div class="user-block">
+                        <form method="post">
+                          {% csrf_token %}
+                          {{ forms.clinicoForm }}
+                          <!-- <input type="submit" value="Subscribe"> -->
+                          <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                          </div>
+                        </form>
+                      </div>
+                    <!-- /.post -->
+                    </div>
+                  </div>
+                  <!-- Aba Dados Clínicos Fim -->
+
+                  <!-- Aba Observação Inicio -->
+                  <div class="tab-pane" id="observacao">
+                    <!-- Post -->
+                    <div class="post">
+                      <div class="user-block">
+                        <form method="post">
+                          {% csrf_token %}
+                          {{ forms.obsevacaoForm }}
+                          <!-- <input type="submit" value="Subscribe"> -->
+                          <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                          </div>
+                        </form>
+                      </div>
+                    <!-- /.post -->
+                    </div>
+                  </div>
+                  <!-- Aba Observação Fim -->
+
+                  <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+          </div>
+          <!-- /.col -->
+
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+       <!-- Fim -->
+
+
+        <!-- form -->
+        <!-- Retirar data da cadastro -->
+        <!-- Adicionar Radio button no campo sexo -->
+        <!-- Adicionar button de calendário ao lado dos campos de data -->
+
+        <!-- /.form -->
+        <!-- /.card -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+  {{ block.super }}
+
+  <script type="text/javascript">
+    $('#id_dataNascimento').datepicker({
+      format: 'dd/mm/yyyy',
+      language: 'pt-BR'
+    });
+  </script>
+
+  {{ form.media }}
+
+{% endblock %}

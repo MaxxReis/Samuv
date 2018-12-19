@@ -1,0 +1,169 @@
+{% extends 'samuv_site/base.html' %}
+
+{% load static %}
+
+{% load css_tags %}
+
+{% block base_css%}
+  {{ block.super }}
+
+  <style>
+    .datepicker { font-size: 12px; }
+  </style>
+
+{% endblock %}
+
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="row">
+        <div class="col-lg-12">
+             {% if messages %}
+             {% for message in messages %}
+             <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}success{% endif %} alert-dismissable">
+                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                 {{ message }}
+             </div>
+             {% endfor %}
+             {% endif %}
+         </div>
+       </div>
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h5 class="m-0 text-dark">Cadastro de Habitos Pessoais</h5>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <!-- <li class="breadcrumb-item"><a href="#">Home</a></li> -->
+              <!--li class="breadcrumb-item active">Dashboard v3</li-->
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-10">
+            <div class="card">
+              <div class="card-body">
+              <!-- Main row -->
+              <form method="post">
+      	        {% csrf_token %}
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.paciente.label_tag }}
+                    {{ form.paciente }}
+                    <small class="form-text text-danger">{{ form.paciente.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.numeroRefeicoesDia.label_tag }}
+                    {{ form.numeroRefeicoesDia }}
+                    <small class="form-text text-danger">{{ form.numeroRefeicoesDia.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.habitosAlimentares.label_tag }}
+                    {{ form.habitosAlimentares }}
+                  <small class="form-text text-danger">{{ form.habitosAlimentares.errors.as_text }}</small>
+                </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.coposAguaDia.label_tag }}
+                    {{ form.coposAguaDia }}
+                  <small class="form-text text-danger">{{ form.coposAguaDia.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.banhosDia.label_tag }}
+                    {{ form.banhosDia }}
+                  <small class="form-text text-danger">{{ form.banhosDia.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.horasSono.label_tag }}
+                    {{ form.horasSono }}
+                  <small class="form-text text-danger">{{ form.horasSono.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.etilismo.label_tag }}
+                    {{ form.etilismo }}
+                  <small class="form-text text-danger">{{ form.etilismo.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.tabagismo.label_tag }}
+                    {{ form.tabagismo }}
+                  <small class="form-text text-danger">{{ form.tabagismo.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.alergiaTopica.label_tag }}
+                    {{ form.alergiaTopica }}
+                  <small class="form-text text-danger">{{ form.alergiaTopica.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.atividadeDomesticaPorDia.label_tag }}
+                    {{ form.atividadeDomesticaPorDia }}
+                  <small class="form-text text-danger">{{ form.atividadeDomesticaPorDia.errors.as_text }}</small>
+                  </div>
+                </div>
+
+              <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+              </div>
+    	       </form>
+           </div>
+
+        </div>
+            <!-- /.card -->
+        </div>
+
+       </div>
+
+
+
+        <!-- form -->
+        <!-- Retirar data da cadastro -->
+        <!-- Adicionar Radio button no campo sexo -->
+        <!-- Adicionar button de calendário ao lado dos campos de data -->
+
+        <!-- /.form -->
+        <!-- /.card -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+  {{ block.super }}
+
+  <script type="text/javascript">
+    $('#id_dataNascimento').datepicker({
+      format: 'dd/mm/yyyy',
+      language: 'pt-BR'
+    });
+  </script>
+
+  {{ form.media }}
+
+{% endblock %}

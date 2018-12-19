@@ -1,0 +1,245 @@
+{% extends 'samuv_site/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+	<!-- Content Header (Page header) -->
+	<div class="content-header">
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+		<script type="text/javascript" src="{% static '/segmentacao/custom-canvas.js' %}"></script>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+			<div class="container-fluid">
+				<div class="row mb-2">
+					<div class="col-sm-6">
+						<h5 class="m-0 text-dark">Análise</h5>
+					</div>
+					<!-- /.col -->
+					<div class="col-sm-6">
+						<ol class="breadcrumb float-sm-right">
+							<!-- link abaixo não utilizado
+                            <li class="breadcrumb-item"><a href="#">Home</a></li> -->
+							<!--li class="breadcrumb-item active">Dashboard v3</li-->
+						</ol>
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.container-fluid -->
+		</div>
+		<!-- /.content-header -->
+		<!-- Main content -->
+		<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body">
+
+               
+                {% for atendimento in atendimento_informacao %}
+                    <table>
+                        <tr>
+                            <td>
+                                <b>Paciente:</b> {{ atendimento.doencaPaciente.paciente.nomeCompleto }}
+                            </td>
+                        </tr>
+                        <tr>
+                          {% for extra in atendimento_extra %}
+                            <td>
+                                <b>Ferida:</b> {{ extra.ferida.apelido }}
+                            </td>
+                          {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Profissional:</b> {{ atendimento.clinicaProfissional.profissional.nomeProfissional }}
+                                <br/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Data do atendimento:</b> {{ atendimento.dataHora|date:'d/m/Y H:i' }}
+                                <br/>
+                            </td>
+                        </tr>
+                        <tr>
+                          {% for tecnica in atendimento_tecnica %}
+                            <td>
+                                <b>Tecnica:</b> {{ tecnica.tecnica.nome }}
+                                <br/>
+                            </td>
+                          {% endfor %}
+                        </tr>
+                        <tr>
+                            <td id="status">
+                                <b>Status:
+                                    {% if atendimento.imagemAnalisada %}
+                                        <font color='#00ff00'>Análise concluída</font>
+                                    {% else %}
+                                        <font color="#ff0000">Análise pendente</font>
+                                </b>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+              
+                {% endfor %}
+
+                <div id="resultadoAnaliseDiv"
+                {% if atendimento.imagemAnalisada %}
+                    style="display: block;">
+                        <p><b>Área aproximada: {{ caracteristica.area }} cm</b></p>
+                {% else %}
+                  style="display: none;">
+                {% endif %}
+                </div>
+								<hr>
+									<table width="100%" style="text-align:left">
+										<tr>
+											<th>Imagem original</th>
+										</tr>
+										<tr>
+											<td>
+												<canvas id="canvas" width="0" height="0" style="z-index:0"></canvas>
+												<canvas id="foreground_canvas" width="0" height="0" style="position: absolute;
+												 left: 21px; top:210px; z-index:1"></canvas>
+											</td>
+                        </tr>
+                        <tr>
+											<td>
+												<input style="display:inline-block;" type="button" onClick="clearCanvas()" value="Remover marcações">
+                         | <input style="display:inline-block;" id="analisarButton" type="button" onClick="analisarImagemBase64()"
+                             value="Analisar imagem" style="display:block;">
+                      </td>
+                      </tr>
+                        <tr>
+                            <th>Imagem analisada</th>
+                        </tr>
+                        <tr>
+  										<td>
+  											<img id="resultImage" src=""/>
+  										</td>
+  									</tr>
+                  </table>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                           var atendimentoId = {{ atendimento.pk }};
+                           var analisada = "{{ atendimento.imagemAnalisada }}";
+                           prepareCanvas();
+                           getImagemCadastrada(atendimentoId);
+                           if(analisada == "True"){
+                             getImagemSegmentadaCadastrada(atendimentoId);
+                           }
+                        });
+
+                        function getImagemCadastrada(atendimentoId){
+                           $.ajax({
+                               url: "{% url 'api_rest:get_imagem_cadastrada_base64' %}",
+                               data: {
+                                   csrfmiddlewaretoken: '{{ csrf_token }}',
+                                   pk: atendimentoId},
+                               type: "POST",
+                               success: function(response) {
+                                   loadImage(response.img64);
+
+                                   function loadImage(data){
+                                         var fileReturnPath = document.getElementsByClassName('form-control');
+                                         var canvas = document.getElementById('canvas');
+                                         var ctx = canvas.getContext('2d');
+                                         var fg_canvas = document.getElementById('foreground_canvas');
+                                         var fg_ctx = fg_canvas.getContext("2d");
+
+                                         clearCanvas('canvas');
+                                         clearCanvas('foreground_canvas');
+                                         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+                                         fg_ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+                                         var url = "data:image/png;base64, "+ data;
+                                         img = new Image();
+                                         img.onload = function() {
+                                               scaleFactor = Math.min((canvasWidth / img.width), (canvasHeight / img.height));
+                                               canvas.width = img.width * scaleFactor;
+                                               canvas.height = img.height * scaleFactor;
+                                               fg_canvas.width = img.width * scaleFactor;
+                                               fg_canvas.height = img.height * scaleFactor;
+
+                                               imageWidth = canvas.width;
+                                               imageHeight = canvas.height;
+                                               canvasWidth = imageWidth;
+                                               canvasHeight = imageHeight;
+                                               ctx.drawImage(img, 0, 0, img.width * scaleFactor, img.height * scaleFactor);
+                                         }
+                                         img.src = url;
+                                   }
+                               },
+                               error: function(xhr) {
+                                   !alert("Ocorreu um erro ao recuperar a imagem cadastrada.");
+                               }
+                           });
+                        }
+
+                        function getImagemSegmentadaCadastrada(atendimentoId){
+                           $.ajax({
+                               url: "{% url 'api_rest:get_imagem_segmentada_cadastrada' %}",
+                               data: {
+                                   csrfmiddlewaretoken: '{{ csrf_token }}',
+                                   pk: atendimentoId},
+                               type: "POST",
+                               success: function(response) {
+                                    document.getElementById("resultImage").src = response[0].img64;
+                                    document.getElementById("foreground_canvas").setAttribute("style", "position: absolute; left: 21px; top:234px; z-index:1;");
+                               },
+                               error: function(xhr) {
+                                   !alert("Ocorreu um erro ao recuperar a imagem segmentada cadastrada.");
+                               }
+                           });
+                        }
+
+                        function analisarImagemBase64(){
+                            var atendimentoId = {{ atendimento.pk }};
+                            var url = "{% url 'api_rest:analisar_imagem_base64' %}";
+                            document.getElementById("analisarButton").disabled=true;
+                            document.getElementById("resultImage").src = "";
+                            imagem = document.getElementById("foreground_canvas").toDataURL().split(',')[1];
+
+                            $.ajax({
+                                type: "POST",
+                                url: url,
+                                data: {
+                                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                                    imagem: imagem,
+                                    atendimentoId: atendimentoId
+                                },
+                                success: function(data) {
+                                    resultadoAnalise = document.getElementById("resultadoAnaliseDiv");
+                                    resultadoAnalise.setAttribute("style", "display:block;");
+                                    resultadoAnalise.innerHTML = "<p><b>Área aproximada: " + data.area + " cm</b></p>";
+                                    document.getElementById("status").innerHTML = "<b>Status: <font color='#00ff00'>Análise concluída</font></b>";
+
+                                    getImagemSegmentadaCadastrada(atendimentoId);
+                                    document.getElementById("analisarButton").disabled=false;
+                                },
+                                error: function(xhr) {
+                                    !alert("Ocorreu um erro ao analisar a imagem.");
+                                    document.getElementById("analisarButton").disabled=false;
+                                }
+                            });
+                        }
+
+                      </script>
+										</div>
+									</div>
+									<!-- /.card -->
+								</div>
+							</div>
+							<!-- /.row -->
+						</div>
+						<!-- /.container-fluid -->
+					</div>
+					<!-- /.content -->
+				</div>
+				<!-- /.content-wrapper -->
+
+{% endblock %}

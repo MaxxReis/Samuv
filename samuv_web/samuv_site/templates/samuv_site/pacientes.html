@@ -1,0 +1,153 @@
+{% extends 'samuv_site/base.html' %}
+{% block content %}
+{% load static %}
+{% block title %} Samuv {% endblock %}
+<script>
+function saveId(id){
+    $('#idPaciente').val(id);
+}
+
+function excluir(){
+    var id = $('#idPaciente').val();
+    var url = "../excluirPaciente/"+id;
+    window.location = url;
+}
+</script>
+<!-- Modal -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel">Excluir Paciente</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        Deseja realmente excluir este paciente?
+      </div>
+      <div class="modal-footer" id="modalExcluir">
+        <button type="button" id="btexcluir"  onclick="excluir()" class="btn btn-primary">Sim</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
+      </div>
+    </div>
+  </div>
+</div> <!-- /.modal -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="row">
+        <div class="col-lg-12">
+             {% if messages %}
+             {% for message in messages %}
+             <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}success{% endif %} alert-dismissable">
+                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                 {{ message }}
+             </div>
+             {% endfor %}
+             {% endif %}
+         </div>
+       </div>
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h5 class="m-0 text-dark">Pacientes Cadastrados</h5>
+              <input type="text" id="idPaciente" hidden/>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <!-- link abaixo não utilizado
+              <li class="breadcrumb-item"><a href="#">Home</a></li> -->
+
+              <!--li class="breadcrumb-item active">Dashboard v3</li-->
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- <div class="col-auto"> -->
+          <div class="col-lg-12">
+            <div class="card">
+              <!--<div class="card-header">
+                <h3 class="card-title">Pacientes Cadastrados</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              <div class="card-body p-0">
+                <table class="table table-striped table-valign-middle">
+                  <thead>
+                  <tr>
+                    <th>CPF</th>
+                    <th>Nome</th>
+                    <!--<th>Sexo</th>
+                    <th>Data de Nascimento</th>
+                    <th>Idade</th> 
+                    <th>Atualizar</th>
+                    <th>Analisar</th>
+                    <th>Gráfico</th>
+                    <th>Anamnese</th>
+                    <th>Observacão</th>
+                    <th>Habitos Pessoais</th>
+                    <th>Dados Clinicos</th> -->
+                    <!-- verifica se o usuário é um administrador, se sim mostra o botão de excluir -->
+                    {% if user.is_staff %}
+                    <th>Excluir</th>
+                    {% endif %}
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                  {% for paciente in paciente_lista %}
+                    <td>
+                         <p>{{paciente.cpf}}</p>
+                    </td>
+                    <td>
+                         {{paciente.nomeCompleto}}
+                       <a href="{% url 'samuv_site:url_listarDadosPaciente' paciente.id %}" class="text-muted">
+                      <i class="fas fa-user-md"></i>
+                    </td>
+                    
+                    <!-- verifica se o usuário é um administrador, se sim mostra o botão de excluir -->
+                    {% if user.is_staff %}
+                      <td>
+                      <!--a onclick="excluir({{paciente.pk}})" class="btn btn-default"-->
+                      <!--a href="#" class="text-muted" data-toggle="modal" data-target="#delete-modal"-->
+                      <a data-toggle="modal" onclick="saveId({{paciente.id}})" href="#delete-modal">
+                        <i class="fa fa-trash"></i>
+                      </a>
+                    </td>
+                    {% endif %}
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row -->
+
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+{% endblock %}

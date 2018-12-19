@@ -1,0 +1,268 @@
+{% extends 'samuv_site/base.html' %}
+
+{% load static %}
+
+{% load css_tags %}
+
+{% block base_css%}
+  {{ block.super }}
+
+  <style>
+    .datepicker { font-size: 12px; }
+  </style>
+
+{% endblock %}
+
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="row">
+        <div class="col-lg-12">
+             {% if messages %}
+             {% for message in messages %}
+             <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}success{% endif %} alert-dismissable">
+                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                 {{ message }}
+             </div>
+             {% endfor %}
+             {% endif %}
+         </div>
+       </div>
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h5 class="m-0 text-dark">Cadastro de Observação</h5>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <!-- <li class="breadcrumb-item"><a href="#">Home</a></li> -->
+              <!--li class="breadcrumb-item active">Dashboard v3</li-->
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-10">
+            <div class="card">
+              <div class="card-body">
+              <!-- Main row -->
+              <form method="post">
+      	        {% csrf_token %}
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.localizacaoUlcera.label_tag }}
+                    {{ form.localizacaoUlcera }}
+                    <small class="form-text text-danger">{{ form.localizacaoUlcera.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.condicaoPele.label_tag }}
+                    {{ form.condicaoPele }}
+                  <small class="form-text text-danger">{{ form.condicaoPele.errors.as_text }}</small>
+                </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.condicaoBordas.label_tag }}
+                    {{ form.condicaoBordas }}
+                  <small class="form-text text-danger">{{ form.condicaoBordas.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.condicaoLeito.label_tag }}
+                    {{ form.condicaoLeito }}
+                  <small class="form-text text-danger">{{ form.condicaoLeito.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.percentualLeito.label_tag }}
+                    {{ form.percentualLeito }}
+                  <small class="form-text text-danger">{{ form.percentualLeito.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.tipoExsudato.label_tag }}
+                    {{ form.tipoExsudato }}
+                  <small class="form-text text-danger">{{ form.tipoExsudato.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.quantidade.label_tag }}
+                    {{ form.quantidade }}
+                  <small class="form-text text-danger">{{ form.quantidade.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.odor.label_tag }}
+                    {{ form.odor }}
+                  <small class="form-text text-danger">{{ form.odor.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.perdaTecidual.label_tag }}
+                    {{ form.perdaTecidual }}
+                  <small class="form-text text-danger">{{ form.perdaTecidual.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.maiorExtensaoVertical.label_tag }}
+                    {{ form.maiorExtensaoVertical }}
+                  <small class="form-text text-danger">{{ form.maiorExtensaoVertical.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.maiorExtensaoHorizontal.label_tag }}
+                    {{ form.maiorExtensaoHorizontal }}
+                  <small class="form-text text-danger">{{ form.maiorExtensaoHorizontal.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.profundidade.label_tag }}
+                    {{ form.profundidade }}
+                  <small class="form-text text-danger">{{ form.profundidade.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.maiorProfundidade.label_tag }}
+                    {{ form.maiorProfundidade }}
+                  <small class="form-text text-danger">{{ form.maiorProfundidade.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.sensibilidade.label_tag }}
+                    {{ form.sensibilidade }}
+                  <small class="form-text text-danger">{{ form.sensibilidade.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.zonaPeDireito.label_tag }}
+                    {{ form.zonaPeDireito }}
+                  <small class="form-text text-danger">{{ form.zonaPeDireito.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.zonaPeEsquerdo.label_tag }}
+                    {{ form.zonaPeEsquerdo }}
+                  <small class="form-text text-danger">{{ form.zonaPeEsquerdo.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.temperatura.label_tag }}
+                    {{ form.temperatura }}
+                  <small class="form-text text-danger">{{ form.temperatura.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.parestesia.label_tag }}
+                    {{ form.parestesia }}
+                  <small class="form-text text-danger">{{ form.parestesia.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.hipoestesia.label_tag }}
+                    {{ form.hipoestesia }}
+                  <small class="form-text text-danger">{{ form.hipoestesia.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.pulsoPedioso.label_tag }}
+                    {{ form.pulsoPedioso }}
+                  <small class="form-text text-danger">{{ form.pulsoPedioso.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.pulsoPopliteo.label_tag }}
+                    {{ form.pulsoPopliteo }}
+                  <small class="form-text text-danger">{{ form.pulsoPopliteo.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.pulsoFemoral.label_tag }}
+                    {{ form.pulsoFemoral }}
+                  <small class="form-text text-danger">{{ form.pulsoFemoral.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.tibiaPosterior.label_tag }}
+                    {{ form.tibiaPosterior }}
+                  <small class="form-text text-danger">{{ form.tibiaPosterior.errors.as_text }}</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    {{ form.sinaisDeInfeccao.label_tag }}
+                    {{ form.sinaisDeInfeccao }}
+                  <small class="form-text text-danger">{{ form.sinaisDeInfeccao.errors.as_text }}</small>
+                  </div>
+                </div>
+
+
+              <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+              </div>
+    	       </form>
+           </div>
+
+        </div>
+            <!-- /.card -->
+        </div>
+
+       </div>
+
+
+
+        <!-- form -->
+        <!-- Retirar data da cadastro -->
+        <!-- Adicionar Radio button no campo sexo -->
+        <!-- Adicionar button de calendário ao lado dos campos de data -->
+
+        <!-- /.form -->
+        <!-- /.card -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+  {{ block.super }}
+
+  <script type="text/javascript">
+    $('#id_dataNascimento').datepicker({
+      format: 'dd/mm/yyyy',
+      language: 'pt-BR'
+    });
+  </script>
+
+  {{ form.media }}
+
+{% endblock %}
